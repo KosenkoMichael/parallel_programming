@@ -9,7 +9,7 @@
 std::vector<std::vector<int>> readMatrix(const std::string& filePath) {
     std::ifstream file(filePath);
     if (!file.is_open()) {
-        throw std::runtime_error("Ошибка открытия файла: " + filePath);
+        throw std::runtime_error("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " + filePath);
     }
 
     std::vector<std::vector<int>> matrix;
@@ -33,7 +33,7 @@ std::vector<std::vector<int>> readMatrix(const std::string& filePath) {
 void writeMatrix(const std::string& filePath, const std::vector<std::vector<int>>& matrix) {
     std::ofstream file(filePath);
     if (!file.is_open()) {
-        throw std::runtime_error("Ошибка открытия файла для записи: " + filePath);
+        throw std::runtime_error("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " + filePath);
     }
 
     for (const auto& row : matrix) {
@@ -54,7 +54,7 @@ std::vector<std::vector<int>> multiplyMatrices(const std::vector<std::vector<int
     size_t colsB = B[0].size();
 
     if (colsA != rowsB) {
-        throw std::invalid_argument("Невозможно перемножить матрицы: количество столбцов первой матрицы не равно количеству строк второй.");
+        throw std::invalid_argument("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.");
     }
 
     std::vector<std::vector<int>> result(rowsA, std::vector<int>(colsB, 0));
@@ -72,7 +72,7 @@ std::vector<std::vector<int>> multiplyMatrices(const std::vector<std::vector<int
 
 int main(int argc, char* argv[]) {
     if (argc != 4) {
-        std::cerr << "Использование: " << argv[0] << " <файл_матрицы_1> <файл_матрицы_2> <файл_результата>" << std::endl;
+        std::cerr << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << argv[0] << " <пїЅпїЅпїЅпїЅ_пїЅпїЅпїЅпїЅпїЅпїЅпїЅ_1> <пїЅпїЅпїЅпїЅ_пїЅпїЅпїЅпїЅпїЅпїЅпїЅ_2> <пїЅпїЅпїЅпїЅ_пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ>" << std::endl;
         return 1;
     }
 
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
 
     writeMatrix(argv[3], result);
 
-    std::cout << "Матрицы успешно перемножены. Результат записан в файл: " << argv[3] << std::endl;
+    std::cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ: " << argv[3] << std::endl;
     
-    return duration.count();
+    return static_cast<int>(duration.count());
 }
