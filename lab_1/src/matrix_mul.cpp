@@ -1,0 +1,94 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <stdexcept>
+#include <sstream>
+#include <string>
+
+std::vector<std::vector<int>> readMatrix(const std::string& filePath) {
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+        throw std::runtime_error("Ошибка открытия файла: " + filePath);
+    }
+
+    std::vector<std::vector<int>> matrix;
+    int value;
+    std::string line;
+
+    while (std::getline(file, line)) {
+        std::vector<int> row;
+        std::stringstream ss(line);
+        while (ss >> value) {
+            row.push_back(value);
+        }
+        if (!row.empty()) {
+            matrix.push_back(row);
+        }
+    }
+
+    return matrix;
+}
+
+void writeMatrix(const std::string& filePath, const std::vector<std::vector<int>>& matrix) {
+    std::ofstream file(filePath);
+    if (!file.is_open()) {
+        throw std::runtime_error("Ошибка открытия файла для записи: " + filePath);
+    }
+
+    for (const auto& row : matrix) {
+        for (size_t i = 0; i < row.size(); ++i) {
+            file << row[i];
+            if (i < row.size() - 1) {
+                file << " ";
+            }
+        }
+        file << "\n";
+    }
+}
+
+std::vector<std::vector<int>> multiplyMatrices(const std::vector<std::vector<int>>& A, const std::vector<std::vector<int>>& B) {
+    size_t rowsA = A.size();
+    size_t colsA = A[0].size();
+    size_t rowsB = B.size();
+    size_t colsB = B[0].size();
+
+    if (colsA != rowsB) {
+        throw std::invalid_argument("Невозможно перемножить матрицы: количество столбцов первой матрицы не равно количеству строк второй.");
+    }
+
+    std::vector<std::vector<int>> result(rowsA, std::vector<int>(colsB, 0));
+
+    for (size_t i = 0; i < rowsA; ++i) {
+        for (size_t j = 0; j < colsB; ++j) {
+            for (size_t k = 0; k < colsA; ++k) {
+                result[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+
+    return result;
+}
+
+int main(int argc, char* argv[]) {
+    if (argc != 4) {
+        std::cerr << "Использование: " << argv[0] << " <файл_матрицы_1> <файл_матрицы_2> <файл_результата>" << std::endl;
+        return 1;
+    }
+
+    try {
+        std::vector<std::vector<int>> matrixA = readMatrix(argv[1]);
+        std::vector<std::vector<int>> matrixB = readMatrix(argv[2]);
+
+        std::vector<std::vector<int>> result = multiplyMatrices(matrixA, matrixB);
+
+        writeMatrix(argv[3], result);
+
+        std::cout << "Матрицы успешно перемножены. Результат записан в файл: " << argv[3] << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Ошибка: " << e.what() << std::endl;
+        return 1;
+    }
+
+    return 0;
+}
