@@ -29,7 +29,7 @@ mat_size = []
 mat_time = []
 
 iterations_num = int(sys.argv[1]) if len(sys.argv) == 3 else 10
-for _ in range(iterations_num):
+for i in range(iterations_num):
     matrix_generator.matrix_generate(matrix_1)
     matrix_generator.matrix_generate(matrix_2)
 
@@ -52,7 +52,7 @@ for _ in range(iterations_num):
     mat_cpp = np.loadtxt(f"{mat_dir_path}result.txt")
 
     if (np.array_equal(mat_cpp, right_result)):
-        print("the multiplication was performed correctly")
+        print(f"№{i})the multiplication was performed correctly")
     else:
         raise ValueError("Matrix doesn't match")
     matrix_1["rows"] += int(sys.argv[2])
