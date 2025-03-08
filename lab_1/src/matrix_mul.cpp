@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <string>
+#include <chrono>
 
 std::vector<std::vector<int>> readMatrix(const std::string& filePath) {
     std::ifstream file(filePath);
@@ -75,20 +76,18 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    try {
-        std::vector<std::vector<int>> matrixA = readMatrix(argv[1]);
-        std::vector<std::vector<int>> matrixB = readMatrix(argv[2]);
+    std::vector<std::vector<int>> matrixA = readMatrix(argv[1]);
+    std::vector<std::vector<int>> matrixB = readMatrix(argv[2]);
 
-        std::vector<std::vector<int>> result = multiplyMatrices(matrixA, matrixB);
+    auto start = std::chrono::high_resolution_clock::now();
+    std::vector<std::vector<int>> result = multiplyMatrices(matrixA, matrixB);
+    auto end = std::chrono::high_resolution_clock::now();
 
-        writeMatrix(argv[3], result);
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-        std::cout << "Матрицы успешно перемножены. Результат записан в файл: " << argv[3] << std::endl;
-    }
-    catch (const std::exception& e) {
-        std::cerr << "Ошибка: " << e.what() << std::endl;
-        return 1;
-    }
+    writeMatrix(argv[3], result);
 
-    return 0;
+    std::cout << "Матрицы успешно перемножены. Результат записан в файл: " << argv[3] << std::endl;
+    
+    return duration.count();
 }

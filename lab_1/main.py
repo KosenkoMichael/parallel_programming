@@ -1,6 +1,8 @@
 import os
+import sys
 import subprocess
 import numpy as np
+import matplotlib.pyplot as plt
 from src import matrix_generator
 
 current_file_path = __file__
@@ -10,35 +12,56 @@ mat_dir_path = "src/matrix/"
 matrix_1 = {
     "min": 0,
     "max": 10,
-    "rows": 3,
-    "cols": 4,
+    "rows": 100,
+    "cols": 100,
     "path": f"{mat_dir_path}1.txt",
 }
 
 matrix_2 = {
     "min": 0,
     "max": 10,
-    "rows": 4,
-    "cols": 3,
+    "rows": 100,
+    "cols": 100,
     "path": f"{mat_dir_path}2.txt",
 }
 
-matrix_generator.matrix_generate(matrix_1)
-matrix_generator.matrix_generate(matrix_2)
+mat_size = []
+mat_time = []
 
-mat1 = np.loadtxt(matrix_1["path"])
-mat2 = np.loadtxt(matrix_2["path"])
+iterations_num = int(sys.argv[1]) if len(sys.argv) == 3 else 10
+for _ in range(iterations_num):
+    matrix_generator.matrix_generate(matrix_1)
+    matrix_generator.matrix_generate(matrix_2)
 
-right_result = mat1 @ mat2
+    mat1 = np.loadtxt(matrix_1["path"])
+    mat2 = np.loadtxt(matrix_2["path"])
 
-exe_path = r"build/matrix.exe"
-arguments = [matrix_1["path"], matrix_2["path"], f"{mat_dir_path}result.txt"]
-result = subprocess.run([exe_path] + arguments, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    right_result = mat1 @ mat2
 
-return_code = result.returncode
-print(f"Код возврата: {return_code}")
+    exe_path = r"build/matrix.exe"
+    arguments = [matrix_1["path"], matrix_2["path"],
+                 f"{mat_dir_path}result.txt"]
+    result = subprocess.run([exe_path] + arguments,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-mat_cpp = np.loadtxt(f"{mat_dir_path}result.txt")
+    return_code = result.returncode
 
-if(np.array_equal(mat_cpp, right_result)):
-    print("the multiplication was performed correctly")
+    mat_size.append(matrix_1["rows"] * matrix_1["cols"])
+    mat_time.append(return_code)
+
+    mat_cpp = np.loadtxt(f"{mat_dir_path}result.txt")
+
+    if (np.array_equal(mat_cpp, right_result)):
+        print("the multiplication was performed correctly")
+    else:
+        raise ValueError("Matrix doesn't match")
+    matrix_1["rows"] += int(sys.argv[2])
+    matrix_1["cols"] += int(sys.argv[2])
+    matrix_2["rows"] += int(sys.argv[2])
+    matrix_2["cols"] += int(sys.argv[2])
+
+plt.plot(mat_size, mat_time, marker='o', linestyle='-', color='b')
+plt.title("size-time dependance")
+plt.xlabel("Matrix size")
+plt.ylabel("Multiplication time") 
+plt.show()
