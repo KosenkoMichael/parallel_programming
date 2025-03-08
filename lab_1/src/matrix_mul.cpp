@@ -9,7 +9,7 @@
 std::vector<std::vector<int>> readMatrix(const std::string& filePath) {
     std::ifstream file(filePath);
     if (!file.is_open()) {
-        throw std::runtime_error("������ �������� �����: " + filePath);
+        throw std::runtime_error("Cannot open file: " + filePath);
     }
 
     std::vector<std::vector<int>> matrix;
@@ -33,7 +33,7 @@ std::vector<std::vector<int>> readMatrix(const std::string& filePath) {
 void writeMatrix(const std::string& filePath, const std::vector<std::vector<int>>& matrix) {
     std::ofstream file(filePath);
     if (!file.is_open()) {
-        throw std::runtime_error("������ �������� ����� ��� ������: " + filePath);
+        throw std::runtime_error("Cannot open file: " + filePath);
     }
 
     for (const auto& row : matrix) {
@@ -54,7 +54,7 @@ std::vector<std::vector<int>> multiplyMatrices(const std::vector<std::vector<int
     size_t colsB = B[0].size();
 
     if (colsA != rowsB) {
-        throw std::invalid_argument("���������� ����������� �������: ���������� �������� ������ ������� �� ����� ���������� ����� ������.");
+        throw std::invalid_argument("Matrixes with such dimensions cannot be multiplied");
     }
 
     std::vector<std::vector<int>> result(rowsA, std::vector<int>(colsB, 0));
@@ -72,7 +72,7 @@ std::vector<std::vector<int>> multiplyMatrices(const std::vector<std::vector<int
 
 int main(int argc, char* argv[]) {
     if (argc != 4) {
-        std::cerr << "�������������: " << argv[0] << " <����_�������_1> <����_�������_2> <����_����������>" << std::endl;
+        std::cerr << "Arguments: " << argv[0] << "<path to first> <path to second> <path to result>" << std::endl;
         return 1;
     }
 
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
 
     writeMatrix(argv[3], result);
 
-    std::cout << "������� ������� �����������. ��������� ������� � ����: " << argv[3] << std::endl;
+    std::cout << "Correctly saved to: " << argv[3] << std::endl;
     
     return static_cast<int>(duration.count());
 }
