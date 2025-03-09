@@ -1,0 +1,4 @@
+﻿cl : командная строка  warning D9025: переопределение "/openmp" на "/openmp:experimental"
+  lab_2.cpp
+C:\Users\kosen\Desktop\parallel_programming\lab_2\lab_2_OpenMP\lab_2.cpp(67,40): warning C4849: Предложение "reduction" OpenMP игнорируется в директиве "simd".
+  lab_2_OpenMP.vcxproj -> C:\Users\kosen\Desktop\parallel_programming\lab_2\lab_2_OpenMP\x64\Debug\lab_2_OpenMP.exe
