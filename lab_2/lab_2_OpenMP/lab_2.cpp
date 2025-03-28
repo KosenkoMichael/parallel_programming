@@ -79,12 +79,12 @@ int main(int argc, char* argv[]) {
 
     std::cout << omp_get_max_threads();
 
-    if (argc != 4) {
+    if (argc != 5) {
         std::cerr << "Arguments: " << argv[0] << "<path to first> <path to second> <path to result>" << std::endl;
         return 1;
     }
 
-    omp_set_num_threads(omp_get_max_threads());
+    omp_set_num_threads(std::stoi(argv[4]));
 
     std::vector<std::vector<int>> matrixA = readMatrix(argv[1]);
     std::vector<std::vector<int>> matrixB = readMatrix(argv[2]);

@@ -1,2 +1,2 @@
-python main.py 20 50 5
+python main.py 25 50 5 12
 # iteration num , size_grow, repeat_count
