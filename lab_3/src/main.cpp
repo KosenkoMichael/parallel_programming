@@ -149,11 +149,11 @@ int main(int argc, char* argv[]) {
         std::stringstream ss;
         ss << size;
         std::string folderName = ss.str();
-        fs::create_directories("result/" + folderName);
+        fs::create_directories("result/" + folderName + "_" + std::to_string(N) + subpath);
 
-        writeMatrixToFile("result/" + folderName + subpath + "/A.txt", A);
-        writeMatrixToFile("result/" + folderName + subpath + "/B.txt", B);
-        writeMatrixToFile("result/" + folderName + subpath + "/C.txt", C);
+        writeMatrixToFile("result/" + folderName + "_" + std::to_string(N) + subpath + "/A.txt", A);
+        writeMatrixToFile("result/" + folderName + "_" + std::to_string(N) + subpath + "/B.txt", B);
+        writeMatrixToFile("result/" + folderName + "_" + std::to_string(N) + subpath + "/C.txt", C);
 
         std::cout << "Threads: " << size << ", Matrix size: " << N << "x" << N << " "<< max_time <<" ms"<< std::endl;
 
